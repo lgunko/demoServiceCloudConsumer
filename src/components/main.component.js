@@ -22,7 +22,7 @@ export class MainComponent extends React.Component {
         console.log(window.sessionStorage.getItem("id_token"))
         if (!window.sessionStorage.getItem("id_token")) {
             if (queryString.parse(window.location.search).id_token) {
-                window.sessionStorage.setItem("id_token", queryString.parse(this.props.location.search).id_token)
+                window.sessionStorage.setItem("id_token", queryString.parse(window.location.search).id_token)
                 window.location = window.location.origin
             } else {
                 const redirectToUrl = new URL(LoginURL);

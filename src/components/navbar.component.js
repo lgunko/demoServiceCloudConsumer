@@ -7,31 +7,27 @@ export class NavBar extends React.Component {
     render() {
         return <SideNavigation
             openState={SideNavigationOpenState.Expanded}
-            selectedId={'calendar'}
-            onItemSelect={()=>{
+            selectedId={'Opened Requests'}
+            onItemSelect={() => {
                 console.log("onItemSelect")
             }}
-            noIcons={false}
+            noIcons={true}
             style={{ height: '100%' }}
             footerItems={[
                 <SideNavigationListItem id="footer1" text="Legal Information" icon="sap-icon://compare" />,
                 <SideNavigationListItem id="footer2" text="Useful Links" icon="sap-icon://chain-link" />
             ]}
         >
-            <SideNavigationListItem text="Overview" icon="sap-icon://home" id="home" tooltip="Nav To Home" />
-            <SideNavigationListItem text="Calendar" icon="sap-icon://calendar" id="calendar" />
-            <SideNavigationListItem text="Customers" icon="sap-icon://employee" id="customers" />
-            <SideNavigationListItem text="Sales" icon="sap-icon://lead" id="sales" tooltip="Sales">
+            <SideNavigationListItem text="Opened Requests" icon="sap-icon://home" id="Opened Requests" />
+            <SideNavigationListItem text="Manage Authorization" icon="sap-icon://calendar" id="Manage Authorization" >
                 <SideNavigationListItem
-                    text="My Opportunities"
+                    text="Users"
                     icon="sap-icon://home"
-                    id="sales-opportunities"
+                    id="Users"
                     tooltip="sales-opportunities"
                 />
-                <SideNavigationListItem text="My Leads" icon="sap-icon://home" id="sales-leads" />
-                <SideNavigationListItem text="My CPQS" icon="sap-icon://home" id="sales-cpqs" />
+                <SideNavigationListItem text="Groups" icon="sap-icon://home" id="Groups" />
             </SideNavigationListItem>
-            <SideNavigationListItem text="Deliveries" icon="sap-icon://add-product" id="delivieries" />
         </SideNavigation>
     }
 }

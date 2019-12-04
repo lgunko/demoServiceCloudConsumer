@@ -6,7 +6,7 @@ import { MyTable } from './table.component'
 import { Groups } from './groups.component'
 import { Me } from './me.component'
 import { Entitlements } from './entitlements.component'
-
+import { Welcome } from './welcome.component';
 import {
     BrowserRouter,
     Switch,
@@ -58,6 +58,9 @@ export class MainComponent extends React.Component {
                             <NavBar />
                             <div style={{ width: "100%" }}>
                                 <Switch>
+                                    <Route exact path="/">
+                                        <Welcome />
+                                    </Route>
                                     <Route path="/serviceCloud">
                                         <MyTable />
                                     </Route>

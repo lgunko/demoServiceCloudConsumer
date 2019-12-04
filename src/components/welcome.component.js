@@ -9,10 +9,26 @@ import { Card } from '@ui5/webcomponents-react/lib/Card'
 
 export class Welcome extends React.Component {
     render() {
-        return <div style={{width: "100%",
+        return <div style={{
+            width: "100%",
+            display: "flex",
             backgroundRepeat: "no-repeat",
             backgroundSize: "contain",
             height: "100%",
-            backgroundImage: "url(/back.png)"}}></div>
+            backgroundImage: "url(/back.png)"
+        }}>
+            <div style={{
+                color: "white",
+                margin: "auto",
+                marginTop: "40px",
+                fontFamily: "sans-serif",
+                fontSize: "large",
+                textAlign: "center"
+            }}>
+                Welcome Leonid (D067044)!
+                <br/>
+                SAP C/4HANA
+            </div>
+        </div >
     }
 }

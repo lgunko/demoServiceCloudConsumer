@@ -16,6 +16,9 @@ function parseJwt(token) {
 
 export const Me = () => {
     let groups = parseJwt(window.sessionStorage.getItem("id_token")) && parseJwt(window.sessionStorage.getItem("id_token")).groups
+    let name =  parseJwt(window.sessionStorage.getItem("id_token")) && parseJwt(window.sessionStorage.getItem("id_token"))["first_name"]
+    let surname = parseJwt(window.sessionStorage.getItem("id_token")) && parseJwt(window.sessionStorage.getItem("id_token"))["last_name"]
+    let duser = parseJwt(window.sessionStorage.getItem("id_token")) && parseJwt(window.sessionStorage.getItem("id_token"))["login_name"]
 
     if (!groups instanceof Array) {
         groups = [groups]
@@ -25,15 +28,15 @@ export const Me = () => {
         <Panel.Header>
             <div style={{ marginRight: "0.75rem" }}>
                 <Identifier
-                    label="John Snow"
+                    label={name + " " + surname}
                     size="m"
                 >
-                    JS
+                    {name.charAt(0) + surname.charAt(0)}
             </Identifier>
             </div>
             <Panel.Head
-                title="John Snow"
-                description="D067044"
+                title={name + " " + surname}
+                description={duser}
             />
         </Panel.Header>
         <Panel.Body style={{ background: "#edeff0" }}>

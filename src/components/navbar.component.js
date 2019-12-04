@@ -5,6 +5,7 @@ import { SideNavigationOpenState } from '@ui5/webcomponents-react/lib/SideNaviga
 import { withRouter } from "react-router-dom";
 
 const routes = {
+    home: "/",
     serviceCloud: "/serviceCloud",
     entitlements: "/entitlements",
     security: "/security",
@@ -13,7 +14,7 @@ const routes = {
 export const NavBar = withRouter(({ history }) =>
     <SideNavigation
         openState={SideNavigationOpenState.Expanded}
-        selectedId={history.location.pathname.replace('/','')}
+        selectedId={history.location.pathname.replace('/', '')}
         onItemSelect={(data1) => {
             console.log("OnItemSelected")
             console.log(data1.parameters.selectedId)
@@ -26,7 +27,7 @@ export const NavBar = withRouter(({ history }) =>
             <SideNavigationListItem id="footer2" text="Useful Links" icon="sap-icon://chain-link" />
         ]}
     >
-        <SideNavigationListItem text="Home" icon="sap-icon://home" id="" />
+        <SideNavigationListItem text="Home" icon="sap-icon://home" id="home" />
         <SideNavigationListItem text="Entitlements" icon="sap-icon://home" id="entitlements" />
         <SideNavigationListItem text="Security" /*icon="sap-icon://calendar"*/ id="security" />
     </SideNavigation>

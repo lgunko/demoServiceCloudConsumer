@@ -15,7 +15,7 @@ function parseJwt(token) {
 };
 
 export const Me = () => {
-    let groups = parseJwt(window.sessionStorage.getItem("id_token")).groups
+    let groups = parseJwt(window.sessionStorage.getItem("id_token")) && parseJwt(window.sessionStorage.getItem("id_token")).groups
 
     if (!groups instanceof Array) {
         groups = [groups]
@@ -39,7 +39,7 @@ export const Me = () => {
         <Panel.Body style={{ background: "#edeff0" }}>
             <LayoutGrid>
                 {
-                    groups.map(group =>
+                    groups && groups.map(group =>
                         <Panel>
                             <Panel.Body>
                                 {group}

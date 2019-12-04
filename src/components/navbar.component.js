@@ -26,7 +26,7 @@ export const NavBar = withRouter(({ history }) =>
             <SideNavigationListItem id="footer2" text="Useful Links" icon="sap-icon://chain-link" />
         ]}
     >
-        <SideNavigationListItem text="Service Cloud" icon="sap-icon://home" id="serviceCloud" />
+        <SideNavigationListItem text="Home" icon="sap-icon://home" id="" />
         <SideNavigationListItem text="Entitlements" icon="sap-icon://home" id="entitlements" />
         <SideNavigationListItem text="Security" /*icon="sap-icon://calendar"*/ id="security" />
     </SideNavigation>

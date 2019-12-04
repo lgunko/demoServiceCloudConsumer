@@ -29,7 +29,7 @@ const State = "longstatestate";
 
 export class MainComponent extends React.Component {
 
-    /*componentDidMount() {
+    componentDidMount() {
         console.log(window.sessionStorage.getItem("id_token"))
         if (!window.sessionStorage.getItem("id_token")) {
             if (queryString.parse(window.location.search).id_token) {
@@ -45,11 +45,11 @@ export class MainComponent extends React.Component {
                 window.location = redirectToUrl
             }
         }
-    }*/
+    }
 
     render() {
         return (
-            //window.sessionStorage.getItem("id_token") &&
+            window.sessionStorage.getItem("id_token") &&
             <BrowserRouter>
                 <ThemeProvider withToastContainer>
                     <div style={{ height: "100%" }}>

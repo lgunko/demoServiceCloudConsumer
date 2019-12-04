@@ -9,6 +9,9 @@ import { Card } from '@ui5/webcomponents-react/lib/Card'
 
 export class Welcome extends React.Component {
     render() {
+        let name = parseJwt(window.sessionStorage.getItem("id_token"))["first_name"]
+        let duser = parseJwt(window.sessionStorage.getItem("id_token"))["login_name"]
+
         return <div style={{
             width: "100%",
             display: "flex",
@@ -25,7 +28,7 @@ export class Welcome extends React.Component {
                 fontSize: "large",
                 textAlign: "center"
             }}>
-                Welcome Leonid (D067044)!
+                Welcome {name} ({duser})!
                 <br/>
                 SAP C/4HANA
             </div>

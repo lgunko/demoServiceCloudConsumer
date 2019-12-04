@@ -9,6 +9,7 @@ const routes = {
     serviceCloud: "/serviceCloud",
     entitlements: "/entitlements",
     security: "/security",
+    clients: "/clients",
 }
 
 export const NavBar = withRouter(({ history }) =>
@@ -29,6 +30,9 @@ export const NavBar = withRouter(({ history }) =>
     >
         <SideNavigationListItem text="Home" icon="sap-icon://home" id="home" />
         <SideNavigationListItem text="Entitlements" icon="sap-icon://home" id="entitlements" />
-        <SideNavigationListItem text="Security" /*icon="sap-icon://calendar"*/ id="security" />
+        <SideNavigationListItem text="Security" /*icon="sap-icon://calendar"*/>
+            <SideNavigationListItem text="Groups And Permissions" icon="sap-icon://home" id="security" />
+            <SideNavigationListItem text="Clients" icon="sap-icon://home" id="clients" />
+        </SideNavigationListItem>
     </SideNavigation>
 );

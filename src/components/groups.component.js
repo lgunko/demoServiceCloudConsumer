@@ -25,13 +25,36 @@ import { Tile } from 'fundamental-react/Tile';
 import { Image } from 'fundamental-react/Image';
 import { Token } from 'fundamental-react/Token';
 
+import { getServices, getGroupsForService, getPermissionsForGroup } from '../httpService/service'
+
 export class Groups extends React.Component {
     state = {
-        editMode1: false,
-        editMode2: false
+        edited: {},
+        services: [],
+        selectedService: null,
+        allGroups: [],
+        groupsForService: {},
+        groupServicePermissions: {},
+    }
+
+    componentDidMount() {
+        (async () => {
+            let services = await getServices()
+            this.setState({ services: services })
+            services.map(async service => {
+                let groupsForService = await getGroupsForService(service);
+                this.setState(state => {
+                    state.groupsForService[service] = groupsForService
+                    return state
+                })
+            })
+
+            let groupPermissions = await getPermissionsForGroup()
+        })()
     }
 
     render() {
+        console.log(this.state)
         return (
             <Panel style={{ width: "100%" }}>
                 <Panel.Header>
@@ -46,87 +69,122 @@ export class Groups extends React.Component {
                     />
                     <Panel.Actions>
                         <Select style={{ width: "20rem" }}
-                            onChange={() => { }}
+                            onChange={(event) => { this.setState({ selectedService: event.parameters.selectedOption.innerText }) }}
                         >
-                            <Option selected={false}>SAP Service Cloud</Option>
-                            <Option selected={true}>SAP Marketing Cloud</Option>
-                            <Option selected={true}>SAP Sales Cloud</Option>
+                            {this.state.services.map(service => <Option selected={this.state.selectedService === service} value={service}>{service}</Option>)}
                         </Select>
                     </Panel.Actions>
                 </Panel.Header>
-                <Panel.Body style={{background:"#edeff0"}}>
+                <Panel.Body style={{ background: "#edeff0" }}>
                     <Table
                         headers={[
                             'Name',
                             'Permissions',
                             ''
                         ]}
-                        tableData={[
-                            {
-                                rowData: [
-                                    'Administrator',
-                                    <div>
-                                        <CheckBox
-                                            disabled={false}
-                                            readonly={!this.state.editMode1}
-                                            checked={true}
-                                            text={"ViewContactData"}
-                                            valueState={null}
-                                            wrap={false}
-                                            onChange={() => { console.log("ViewContactData") }}
+                        tableData={
+                            /*this.state.groupsPerService[this.state.selectedService].map(groupName => {
+                                return {
+                                    rowData: [
+                                        group,
+                                        <div>
+                                            <CheckBox
+                                                disabled={false}
+                                                readonly={!this.state.editMode1}
+                                                checked={true}
+                                                text={"ViewContactData"}
+                                                valueState={null}
+                                                wrap={false}
+                                                onChange={() => { console.log("ViewContactData") }}
+                                            />
+                                            <CheckBox
+                                                disabled={false}
+                                                readonly={!this.state.editMode1}
+                                                checked={true}
+                                                text={"ViewServiceRequests"}
+                                                valueState={null}
+                                                wrap={false}
+                                                onChange={() => { console.log("ViewServiceRequests") }}
+                                            />
+                                        </div>,
+                                        <Button glyph={this.state.editMode1 ? "save" : "edit"} option="light" onClick={() => {
+                                            this.setState(state => {
+                                                state.edited.push(this.state.groupsPerService[selectedService])
+                                                return state
+                                            })
+                                        }}
                                         />
-                                        <CheckBox
-                                            disabled={false}
-                                            readonly={!this.state.editMode1}
-                                            checked={true}
-                                            text={"ViewServiceRequests"}
-                                            valueState={null}
-                                            wrap={false}
-                                            onChange={() => { console.log("ViewServiceRequests") }}
-                                        />
-                                    </div>,
-                                    <Button glyph={this.state.editMode1 ? "save" : "edit"} option="light" onClick={() => {
-                                        this.setState(state => {
-                                            state.editMode1 = !state.editMode1
-                                            return state
-                                        })
-                                    }}
-                                    />
-                                ]
+                                    ]
+                                }
                             },
-                            {
-                                rowData: [
-                                    'ServiceEngineer',
-                                    <div>
-                                        <CheckBox
-                                            disabled={false}
-                                            readonly={!this.state.editMode2}
-                                            checked={false}
-                                            text={"ViewContactData"}
-                                            valueState={null}
-                                            wrap={false}
-                                            onChange={() => { console.log("ViewContactData") }}
+                            )*/
+
+                            [
+                                {
+                                    rowData: [
+                                        'Administrator',
+                                        <div>
+                                            <CheckBox
+                                                disabled={false}
+                                                readonly={!this.state.edited['Administrator']}
+                                                checked={true}
+                                                text={"ViewContactData"}
+                                                valueState={null}
+                                                wrap={false}
+                                                onChange={() => { console.log("ViewContactData") }}
+                                            />
+                                            <CheckBox
+                                                disabled={false}
+                                                readonly={!this.state.edited['Administrator']}
+                                                checked={true}
+                                                text={"ViewServiceRequests"}
+                                                valueState={null}
+                                                wrap={false}
+                                                onChange={() => { console.log("ViewServiceRequests") }}
+                                            />
+                                        </div>,
+                                        <Button glyph={this.state.edited['Administrator'] === true ? "save" : "edit"} option="light" onClick={() => {
+                                            this.setState(state => {
+                                                state.edited['Administrator'] = !state.edited['Administrator']
+                                                return state
+                                            })
+                                        }}
                                         />
-                                        <CheckBox
-                                            disabled={false}
-                                            readonly={!this.state.editMode2}
-                                            checked={true}
-                                            text={"ViewServiceRequests"}
-                                            valueState={null}
-                                            wrap={false}
-                                            onChange={() => { console.log("ViewServiceRequests") }}
+                                    ]
+                                },
+                                {
+                                    rowData: [
+                                        'ServiceEngineer',
+                                        <div>
+                                            <CheckBox
+                                                disabled={false}
+                                                readonly={!this.state.edited['ServiceEngineer']}
+                                                checked={false}
+                                                text={"ViewContactData"}
+                                                valueState={null}
+                                                wrap={false}
+                                                onChange={() => { console.log("ViewContactData") }}
+                                            />
+                                            <CheckBox
+                                                disabled={false}
+                                                readonly={!this.state.edited['ServiceEngineer']}
+                                                checked={true}
+                                                text={"ViewServiceRequests"}
+                                                valueState={null}
+                                                wrap={false}
+                                                onChange={() => { console.log("ViewServiceRequests") }}
+                                            />
+                                        </div>,
+                                        <Button glyph={this.state.edited['ServiceEngineer'] === true ? "save" : "edit"} option="light" onClick={() => {
+                                            this.setState(state => {
+                                                state.edited['ServiceEngineer'] = !state.edited['ServiceEngineer']
+                                                return state
+                                            })
+                                        }}
                                         />
-                                    </div>,
-                                    <Button glyph={this.state.editMode2 ? "save" : "edit"} option="light" onClick={() => {
-                                        this.setState(state => {
-                                            state.editMode2 = !state.editMode2
-                                            return state
-                                        })
-                                    }}
-                                    />
-                                ]
-                            }
-                        ]}
+                                    ]
+                                }
+                            ]}
                     />
                 </Panel.Body>
             </Panel>

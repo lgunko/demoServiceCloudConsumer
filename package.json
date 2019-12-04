@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ui5/webcomponents-react": "^0.6.2",
+    "fundamental-react": "^0.7.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",

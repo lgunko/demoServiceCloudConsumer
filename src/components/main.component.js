@@ -3,6 +3,17 @@ import { ThemeProvider } from '@ui5/webcomponents-react/lib/ThemeProvider';
 import { Bar } from './bar.component'
 import { NavBar } from './navbar.component'
 import { MyTable } from './table.component'
+import { Groups } from './groups.component'
+import { Me } from './me.component'
+import { Entitlements } from './entitlements.component'
+
+import {
+    BrowserRouter,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+
 const queryString = require('query-string');
 
 
@@ -18,7 +29,7 @@ const State = "longstatestate";
 
 export class MainComponent extends React.Component {
 
-    componentDidMount() {
+    /*componentDidMount() {
         console.log(window.sessionStorage.getItem("id_token"))
         if (!window.sessionStorage.getItem("id_token")) {
             if (queryString.parse(window.location.search).id_token) {
@@ -34,20 +45,37 @@ export class MainComponent extends React.Component {
                 window.location = redirectToUrl
             }
         }
-    }
+    }*/
 
     render() {
         return (
-            window.sessionStorage.getItem("id_token") &&
-            <ThemeProvider withToastContainer>
-                <div style={{ height: "100%" }}>
-                    <Bar />
-                    <div style={{ display: "flex", height: "calc(100% - 40px)" }}>
-                        <NavBar />
-                        <MyTable />
+            //window.sessionStorage.getItem("id_token") &&
+            <BrowserRouter>
+                <ThemeProvider withToastContainer>
+                    <div style={{ height: "100%" }}>
+                        <Bar />
+                        <div style={{ display: "flex", height: "calc(100% - 40px)" }}>
+                            <NavBar />
+                            <div style={{ width: "100%" }}>
+                                <Switch>
+                                    <Route path="/serviceCloud">
+                                        <MyTable />
+                                    </Route>
+                                    <Route path="/security">
+                                        <Groups />
+                                    </Route>
+                                    <Route path="/entitlements">
+                                        <Entitlements />
+                                    </Route>
+                                    <Route path="/me">
+                                        <Me />
+                                    </Route>
+                                </Switch>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </ThemeProvider>
+                </ThemeProvider>
+            </BrowserRouter>
         )
     }
 

@@ -111,9 +111,15 @@ export class Groups extends React.Component {
 
             let [allGroups, services] = await Promise.all([this.processAllGroupsData(), this.processAllServicesData()])
 
-            this.processVersionsData()
+            await this.processVersionsData()
 
-            this.processOldVersionData(allGroups, services, async (group) => { return await getPermissionsForGroup(group) })
+            this.processOldVersionData(allGroups, services, (group) => {
+                let curVersion = this.state.allFullVersions.find(version => version.name === this.state.selectedVersion.name && version.service === this.state.selectedService)
+                console.log(curVersion)
+                let permissions = curVersion.permissions && curVersion.permissions[group] && curVersion.permissions[group].map(permission => { return { service: this.state.selectedService, permission: permission } })
+                console.log(permissions)
+                return permissions
+            })//async (group) => { return await getPermissionsForGroup(group) })
         })()
     }
 
@@ -147,7 +153,13 @@ export class Groups extends React.Component {
                                 onChange={(event) => {
                                     this.setState({ selectedVersion: this.state.allFullVersions.find(version => version.name === event.parameters.selectedOption.innerText) }, () => {
                                         if (this.state.selectedVersion._id === this.state.activeVersion.versionId)
-                                            this.processOldVersionData(this.state.allGroups, this.state.services, async (group) => { return await getPermissionsForGroup(group) })
+                                            this.processOldVersionData(this.state.allGroups, this.state.services, (group) => {
+                                                let curVersion = this.state.allFullVersions.find(version => version.name === this.state.selectedVersion.name && version.service === this.state.selectedService)
+                                                console.log(curVersion)
+                                                let permissions = curVersion.permissions && curVersion.permissions[group] && curVersion.permissions[group].map(permission => { return { service: this.state.selectedService, permission: permission } })
+                                                console.log(permissions)
+                                                return permissions
+                                            })//async (group) => { return await getPermissionsForGroup(group) })
                                         else
                                             this.processOldVersionData(this.state.allGroups, this.state.services, (group) => {
                                                 let curVersion = this.state.allFullVersions.find(version => version.name === this.state.selectedVersion.name && version.service === this.state.selectedService)

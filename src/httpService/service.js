@@ -3,6 +3,38 @@ export const getServices = async () => {
     return await (await fetch(url)).json()
 }
 
+export const activateOldVersion = async (service, versionId) => {
+    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/activateOldVersion"
+    let result = await (await fetch(url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            versionId: versionId,
+            service: service
+        }),
+    })).json()
+    console.log(result)
+    return result
+}
+
+export const postNewVersion = async (serviceGroupPermissions, service) => {
+    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/newVersion"
+    let result = await (await fetch(url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            permissionsForGroup: serviceGroupPermissions[service],
+            service: service
+        }),
+    })).json()
+    console.log(result)
+    return result
+}
+
 export const getActiveVersions = async () => {
     let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/activeVersions"
     return await (await fetch(url)).json()

@@ -14,7 +14,7 @@ import { Panel } from 'fundamental-react/Panel';
 import { Toggle } from 'fundamental-react/Toggle';
 
 
-import { getServices, getGroupsForService, getPermissionsForGroup, getAllGroups, getActiveVersions, getAllVersions } from '../httpService/service'
+import { getServices, getGroupsForService, getPermissionsForGroup, getAllGroups, getActiveVersions, getAllVersions, postNewVersion, activateOldVersion } from '../httpService/service'
 
 export class Groups extends React.Component {
     state = {
@@ -32,7 +32,7 @@ export class Groups extends React.Component {
         activeVersion: "",  //back
     }
 
-    async processBackEndData(allGroups, services) {
+    /*async processBackEndData(allGroups, services) {
         let serviceGroupPermissions = {}
         let groupsIterator = allGroups.map(async group => {
             let groupPermissions = await getPermissionsForGroup(group)
@@ -66,7 +66,7 @@ export class Groups extends React.Component {
             })
         })
         this.setState({ permissionsForService: permissionsForService })
-    }
+    }*/
 
     async processOldVersionData(allGroups, services, getGroupPermissionsFunc) {
         let serviceGroupPermissions = {}
@@ -74,7 +74,7 @@ export class Groups extends React.Component {
             serviceGroupPermissions[service] = {}
         })
         let groupsIterator = allGroups.map(async group => {
-            let groupPermissions = getGroupPermissionsFunc(group)
+            let groupPermissions = await getGroupPermissionsFunc(group)
             console.log(groupPermissions)
             this.setState(state => {
                 state.permissionsForGroup[group] = groupPermissions ? groupPermissions : []
@@ -112,10 +112,12 @@ export class Groups extends React.Component {
         let allVersions = allFullVersions.map(version => version.name)
         this.setState({ allVersions: allVersions, allFullVersions: allFullVersions })
 
-        let activeVersion = await getActiveVersions();
+        let activeVersions = await getActiveVersions();
 
-        let currentVersion = allVersions.find(version => version._id === activeVersion.versionId)
-        this.setState({ activeVersion: currentVersion, selectedVersion: currentVersion })
+        let activeVersion = activeVersions.find(version => version._id === this.state.selectedService)
+
+        let currentFullVersion = allFullVersions.find(version => version.name === activeVersion.versionId && version.service === activeVersion._id)
+        this.setState({ activeVersion: activeVersion.versionId, selectedVersion: currentFullVersion.name })
     }
 
     async processAllGroupsData() {
@@ -145,7 +147,7 @@ export class Groups extends React.Component {
 
             this.processVersionsData()
 
-            this.processBackEndData(allGroups, services)
+            this.processOldVersionData(allGroups, services, async (group) => { return await getPermissionsForGroup(group) })
         })()
     }
 
@@ -166,9 +168,11 @@ export class Groups extends React.Component {
                     <Panel.Actions>
                         <div style={{ display: "flex" }}>
                             <Select style={{ width: "20rem", marginRight: "1rem" }}
-                                onChange={(event) => { this.setState({ selectedService: event.parameters.selectedOption.innerText }, ()=>{
-                                    this.processVersionsData()
-                                }) }}
+                                onChange={(event) => {
+                                    this.setState({ selectedService: event.parameters.selectedOption.innerText }, () => {
+                                        this.processVersionsData()
+                                    })
+                                }}
                             >
                                 {this.state.services.map(service => <Option selected={this.state.selectedService === service} value={service}>{service}</Option>)}
                             </Select>
@@ -177,12 +181,12 @@ export class Groups extends React.Component {
                                 onChange={(event) => {
                                     this.setState({ selectedVersion: event.parameters.selectedOption.innerText }, () => {
                                         if (this.state.selectedVersion == this.state.activeVersion)
-                                            this.processBackEndData(this.state.allGroups, this.state.services)
+                                            this.processOldVersionData(this.state.allGroups, this.state.services, async (group) => { return await getPermissionsForGroup(group) })
                                         else
                                             this.processOldVersionData(this.state.allGroups, this.state.services, (group) => {
                                                 let curVersion = this.state.allFullVersions.find(version => version.name === this.state.selectedVersion && version.service === this.state.selectedService)
                                                 console.log(curVersion)
-                                                let permissions = curVersion.permissions[group] && curVersion.permissions[group].map(permission => {return {service: this.state.selectedService, permission:permission}})
+                                                let permissions = curVersion.permissions && curVersion.permissions[group] && curVersion.permissions[group].map(permission => { return { service: this.state.selectedService, permission: permission } })
                                                 console.log(permissions)
                                                 return permissions
                                             })
@@ -197,6 +201,10 @@ export class Groups extends React.Component {
                                 <Switch
                                     checked={this.state.selectedVersion === this.state.activeVersion ? true : false}
                                     disabled={this.state.selectedVersion === this.state.activeVersion ? true : false}
+                                    onChange={async () => {
+                                        await activateOldVersion(this.state.selectedService, this.state.selectedVersion)
+                                        this.processVersionsData()
+                                    }}
                                 />
                                 <div style={this.state.selectedVersion == this.state.activeVersion ? { color: "green", margin: "auto" } : { color: "red", margin: "auto" }}>
                                     {this.state.selectedVersion == this.state.activeVersion ? "Activated" : "Outdated"}
@@ -254,10 +262,12 @@ export class Groups extends React.Component {
                                                     )
                                                 }
                                             </div>,
-                                            <Button glyph={this.state.edited[groupName] === true ? "save" : "edit"} option="light" onClick={() => {
+                                            <Button glyph={this.state.edited[groupName] === true ? "save" : "edit"} option="light" onClick={async () => {
                                                 if (this.state.edited[groupName]) {
                                                     //this.post - change permissions for group - this.state.permissionsForGroup
                                                     //create new version with new permissions and make it active
+                                                    await postNewVersion(this.state.serviceGroupPermissions, this.state.selectedService)
+                                                    this.processVersionsData()
                                                 }
                                                 this.setState(state => {
                                                     state.edited[groupName] = !state.edited[groupName]

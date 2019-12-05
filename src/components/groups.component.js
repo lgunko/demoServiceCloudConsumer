@@ -32,42 +32,6 @@ export class Groups extends React.Component {
         activeVersion: "",  //back
     }
 
-    /*async processBackEndData(allGroups, services) {
-        let serviceGroupPermissions = {}
-        let groupsIterator = allGroups.map(async group => {
-            let groupPermissions = await getPermissionsForGroup(group)
-            this.setState(state => {
-                state.permissionsForGroup[group] = groupPermissions
-                return state
-            })
-            console.log(groupPermissions)
-            groupPermissions.map(groupPermission => {
-                if (!serviceGroupPermissions[groupPermission.service]) {
-                    serviceGroupPermissions[groupPermission.service] = {}
-                }
-                if (!serviceGroupPermissions[groupPermission.service][group]) {
-                    serviceGroupPermissions[groupPermission.service][group] = []
-                }
-                serviceGroupPermissions[groupPermission.service][group].push(groupPermission.permission)
-            })
-        })
-        await Promise.all(groupsIterator)
-        this.setState({ serviceGroupPermissions: serviceGroupPermissions })
-        let permissionsForService = {}
-        services.map(service => {
-            serviceGroupPermissions[service] && Object.keys(serviceGroupPermissions[service]).sort().map(group => {
-                serviceGroupPermissions[service][group].map(permission => {
-                    if (!permissionsForService[service]) {
-                        permissionsForService[service] = []
-                    }
-                    if (!permissionsForService[service].includes(permission))
-                        permissionsForService[service].push(permission)
-                })
-            })
-        })
-        this.setState({ permissionsForService: permissionsForService })
-    }*/
-
     async processOldVersionData(allGroups, services, getGroupPermissionsFunc) {
         let serviceGroupPermissions = {}
         services.map(service => {
@@ -116,8 +80,10 @@ export class Groups extends React.Component {
 
         let activeVersion = activeVersions.find(version => version._id === this.state.selectedService)
 
-        let currentFullVersion = allFullVersions.find(version => version.name === activeVersion.versionId && version.service === activeVersion._id)
-        this.setState({ activeVersion: activeVersion.versionId, selectedVersion: currentFullVersion.name })
+        let currentFullVersion = allFullVersions.find(version => version._id === activeVersion.versionId && version.service === activeVersion._id)
+        console.log(activeVersion)
+        console.log(currentFullVersion)
+        this.setState({ activeVersion: activeVersion, selectedVersion: currentFullVersion })
     }
 
     async processAllGroupsData() {
@@ -179,12 +145,12 @@ export class Groups extends React.Component {
 
                             <Select style={{ width: "5rem", marginRight: "1rem" }}
                                 onChange={(event) => {
-                                    this.setState({ selectedVersion: event.parameters.selectedOption.innerText }, () => {
-                                        if (this.state.selectedVersion == this.state.activeVersion)
+                                    this.setState({ selectedVersion: this.state.allFullVersions.find(version => version.name === event.parameters.selectedOption.innerText) }, () => {
+                                        if (this.state.selectedVersion._id === this.state.activeVersion.versionId)
                                             this.processOldVersionData(this.state.allGroups, this.state.services, async (group) => { return await getPermissionsForGroup(group) })
                                         else
                                             this.processOldVersionData(this.state.allGroups, this.state.services, (group) => {
-                                                let curVersion = this.state.allFullVersions.find(version => version.name === this.state.selectedVersion && version.service === this.state.selectedService)
+                                                let curVersion = this.state.allFullVersions.find(version => version.name === this.state.selectedVersion.name && version.service === this.state.selectedService)
                                                 console.log(curVersion)
                                                 let permissions = curVersion.permissions && curVersion.permissions[group] && curVersion.permissions[group].map(permission => { return { service: this.state.selectedService, permission: permission } })
                                                 console.log(permissions)
@@ -194,20 +160,20 @@ export class Groups extends React.Component {
                                     })
                                 }}
                             >
-                                {this.state.allVersions.map(version => <Option selected={this.state.selectedVersion === version} value={version}>{version}</Option>)}
+                                {this.state.allVersions.map(version => <Option selected={this.state.selectedVersion.name === version} value={version}>{version}</Option>)}
                             </Select>
                             <div style={{ margin: "auto", display: "flex" }}>
 
                                 <Switch
-                                    checked={this.state.selectedVersion === this.state.activeVersion ? true : false}
-                                    disabled={this.state.selectedVersion === this.state.activeVersion ? true : false}
+                                    checked={this.state.selectedVersion._id === this.state.activeVersion.versionId ? true : false}
+                                    disabled={this.state.selectedVersion._id === this.state.activeVersion.versionId ? true : false}
                                     onChange={async () => {
-                                        await activateOldVersion(this.state.selectedService, this.state.selectedVersion)
+                                        await activateOldVersion(this.state.selectedService, this.state.selectedVersion._id)
                                         this.processVersionsData()
                                     }}
                                 />
-                                <div style={this.state.selectedVersion == this.state.activeVersion ? { color: "green", margin: "auto" } : { color: "red", margin: "auto" }}>
-                                    {this.state.selectedVersion == this.state.activeVersion ? "Activated" : "Outdated"}
+                                <div style={this.state.selectedVersion._id == this.state.activeVersion.versionId ? { color: "green", margin: "auto" } : { color: "red", margin: "auto" }}>
+                                    {this.state.selectedVersion._id == this.state.activeVersion.versionId ? "Activated" : "Outdated"}
                                 </div>
 
                             </div>

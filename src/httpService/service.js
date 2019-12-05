@@ -1,10 +1,25 @@
-export async function getServices() {
+export const getServices = async () => {
     let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/allServices"
+    return await (await fetch(url)).json()
+}
+
+export const getActiveVersions = async () => {
+    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/activeVersions"
+    return await (await fetch(url)).json()
+}
+
+export const getAllVersions = async (service) => {
+    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/allVersions?service=" + encodeURIComponent(service)
     return await (await fetch(url)).json()
 }
 
 export const getGroupsForService = async (service) => {
     let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/groupsForService?service=" + encodeURIComponent(service)
+    return await (await fetch(url)).json()
+}
+
+export const getAllGroups = async () => {
+    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/allGroups"
     return await (await fetch(url)).json()
 }
 

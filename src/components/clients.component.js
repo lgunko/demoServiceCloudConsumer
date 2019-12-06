@@ -66,7 +66,7 @@ export class Clients extends React.Component {
                                 {
                                     rowData: [
                                         'SAP Service Cloud',
-                                        'https://bundle.service.sap.com',
+                                        'https://bundle.faros.kyma.cx/servicecloud',
                                         <span style={{ color: "green" }}>Active</span>,
                                         '1 min ago',
                                         <Button glyph="edit" option="light"/>,
@@ -76,7 +76,7 @@ export class Clients extends React.Component {
                                 {
                                     rowData: [
                                         'SAP Marketing Cloud',
-                                        'https://bundle.marketing.cloud.faros.sap.com',
+                                        'https://bundle.faros.kyma.cx/marketingcloud',
                                         <span style={{ color: "green" }}>Active</span>,
                                         '2 min ago',
                                         <Button glyph="edit" option="light"/>,

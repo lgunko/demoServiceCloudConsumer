@@ -20,7 +20,7 @@ export const Bar = withRouter(({ history }) => {
 
     return <Shellbar
         logo={<img alt="SAP" src="//unpkg.com/fundamental-styles/dist/images/sap-logo.png" />}
-        productTitle="Service Cloud Cockpit"
+        productTitle="SAP C/4 HANA Cockpit"
         profile={{
             colorAccent: 8,
             initials: name.charAt(0) + surname.charAt(0),

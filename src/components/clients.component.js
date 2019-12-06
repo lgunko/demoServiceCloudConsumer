@@ -8,11 +8,11 @@ import { Card } from '@ui5/webcomponents-react/lib/Card'
 
 import { Icon } from 'fundamental-react/Icon';
 
-import { Table } from 'fundamental-react/Table';
+
 //import { Popover } from 'fundamental-react/Popover';
 import { Popover } from '@ui5/webcomponents-react/lib/Popover';
 import { Menu } from 'fundamental-react/Menu';
-import { Button } from 'fundamental-react/Button';
+
 import { CheckBox } from '@ui5/webcomponents-react/lib/CheckBox';
 import { Select } from '@ui5/webcomponents-react/lib/Select';
 import { Option } from '@ui5/webcomponents-react/lib/Option';
@@ -20,6 +20,8 @@ import { Option } from '@ui5/webcomponents-react/lib/Option';
 import { MultiComboBox } from '@ui5/webcomponents-react/lib/MultiComboBox';
 import { StandardListItem } from '@ui5/webcomponents-react/lib/StandardListItem';
 
+import { Button } from 'fundamental-react/Button';
+import { Table } from 'fundamental-react/Table';
 import { Panel } from 'fundamental-react/Panel';
 import { Toggle } from 'fundamental-react/Toggle';
 import { Tile } from 'fundamental-react/Tile';
@@ -92,181 +94,10 @@ export class Clients extends React.Component {
                                     ]
                                 },
                             ]
-
-                            /*[
-                                {
-                                    rowData: [
-                                        'Administrator',
-                                        <div>
-                                            <CheckBox
-                                                disabled={false}
-                                                readonly={!this.state.edited['Administrator']}
-                                                checked={true}
-                                                text={"ViewContactData"}
-                                                valueState={null}
-                                                wrap={false}
-                                                onChange={() => { console.log("ViewContactData") }}
-                                            />
-                                            <CheckBox
-                                                disabled={false}
-                                                readonly={!this.state.edited['Administrator']}
-                                                checked={true}
-                                                text={"ViewServiceRequests"}
-                                                valueState={null}
-                                                wrap={false}
-                                                onChange={() => { console.log("ViewServiceRequests") }}
-                                            />
-                                        </div>,
-                                        <Button glyph={this.state.edited['Administrator'] === true ? "save" : "edit"} option="light" onClick={() => {
-                                            this.setState(state => {
-                                                state.edited['Administrator'] = !state.edited['Administrator']
-                                                return state
-                                            })
-                                        }}
-                                        />
-                                    ]
-                                },
-                                {
-                                    rowData: [
-                                        'ServiceEngineer',
-                                        <div>
-                                            <CheckBox
-                                                disabled={false}
-                                                readonly={!this.state.edited['ServiceEngineer']}
-                                                checked={false}
-                                                text={"ViewContactData"}
-                                                valueState={null}
-                                                wrap={false}
-                                                onChange={() => { console.log("ViewContactData") }}
-                                            />
-                                            <CheckBox
-                                                disabled={false}
-                                                readonly={!this.state.edited['ServiceEngineer']}
-                                                checked={true}
-                                                text={"ViewServiceRequests"}
-                                                valueState={null}
-                                                wrap={false}
-                                                onChange={() => { console.log("ViewServiceRequests") }}
-                                            />
-                                        </div>,
-                                        <Button glyph={this.state.edited['ServiceEngineer'] === true ? "save" : "edit"} option="light" onClick={() => {
-                                            this.setState(state => {
-                                                state.edited['ServiceEngineer'] = !state.edited['ServiceEngineer']
-                                                return state
-                                            })
-                                        }}
-                                        />
-                                    ]
-                                }
-                            ]*/
                         }
                     />
                 </Panel.Body>
             </Panel >
         )
     }
-    /*
-        render() {
-            return <Card
-                heading={"Groups"}
-                subtitle={
-                    <Select
-                        onChange={()=>{}}
-                    >
-                        <Option selected icon="sap-icon://add">Test 1</Option>
-                        <Option icon="sap-icon://add">Test 2</Option>
-                        <Option icon="sap-icon://add">Test 3</Option>
-                        <Option icon="sap-icon://add">Test 4</Option>
-                        <Option icon="sap-icon://add">Test 5</Option>
-                    </Select>
-                }
-                status={"Total : 3"}
-                avatar={"action-settings"}
-                headerInteractive={false}
-                onHeaderClick={() => {
-                    console.log("onHeaderClick")
-                }}
-            >
-                {
-    
-                    <Table
-                        headers={[
-                            'Name',
-                            'Permissions',
-                            ''
-                        ]}
-                        tableData={[
-                            {
-                                rowData: [
-                                    'Administrator',
-                                    <div>
-                                        <CheckBox
-                                            disabled={false}
-                                            readonly={!this.state.editMode1}
-                                            checked={true}
-                                            text={"ViewContactData"}
-                                            valueState={null}
-                                            wrap={false}
-                                            onChange={() => { console.log("ViewContactData") }}
-                                        />
-                                        <CheckBox
-                                            disabled={false}
-                                            readonly={!this.state.editMode1}
-                                            checked={true}
-                                            text={"ViewServiceRequests"}
-                                            valueState={null}
-                                            wrap={false}
-                                            onChange={() => { console.log("ViewServiceRequests") }}
-                                        />
-                                    </div>,
-                                    <Button glyph="edit" option="light" onClick={() => {
-                                        this.setState(state => {
-                                            state.editMode1 = !state.editMode1
-                                            return state
-                                        })
-                                    }}
-                                    />
-                                ]
-                            },
-                            {
-                                rowData: [
-                                    'ServiceEngineer',
-                                    <div>
-                                        <CheckBox
-                                            disabled={false}
-                                            readonly={!this.state.editMode1}
-                                            checked={false}
-                                            text={"ViewContactData"}
-                                            valueState={null}
-                                            wrap={false}
-                                            onChange={() => { console.log("ViewContactData") }}
-                                        />
-                                        <CheckBox
-                                            disabled={false}
-                                            readonly={!this.state.editMode1}
-                                            checked={true}
-                                            text={"ViewServiceRequests"}
-                                            valueState={null}
-                                            wrap={false}
-                                            onChange={() => { console.log("ViewServiceRequests") }}
-                                        />
-                                    </div>,
-                                    <Button glyph="edit" option="light" onClick={() => {
-                                        this.setState(state => {
-                                            state.editMode2 = !state.editMode2
-                                            return state
-                                        })
-                                    }}
-                                    />
-                                ]
-                            }
-                        ]}
-                    />
-    
-                }
-    
-    
-            </Card>
-        }
-        */
 }

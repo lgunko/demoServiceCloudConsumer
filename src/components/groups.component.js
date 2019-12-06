@@ -56,6 +56,8 @@ export class Groups extends React.Component {
         })
         await Promise.all(groupsIterator)
         this.setState({ serviceGroupPermissions: serviceGroupPermissions })
+        console.log(serviceGroupPermissions)
+        console.log("UPDATE permissionsForService")
         let permissionsForService = {}
         services.map(service => {
             serviceGroupPermissions[service] && Object.keys(serviceGroupPermissions[service]).sort().map(group => {

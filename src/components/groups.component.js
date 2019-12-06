@@ -143,8 +143,15 @@ export class Groups extends React.Component {
                         <div style={{ display: "flex" }}>
                             <Select style={{ width: "20rem", marginRight: "1rem" }}
                                 onChange={(event) => {
-                                    this.setState({ selectedService: event.parameters.selectedOption.innerText }, () => {
-                                        this.processVersionsData()
+                                    this.setState({ selectedService: event.parameters.selectedOption.innerText }, async () => {
+                                        await this.processVersionsData();
+                                        this.processOldVersionData(this.state.allGroups, this.state.services, (group) => {
+                                            let curVersion = this.state.allFullVersions.find(version => version.name === this.state.selectedVersion.name && version.service === this.state.selectedService)
+                                            console.log(curVersion)
+                                            let permissions = curVersion.permissions && curVersion.permissions[group] && curVersion.permissions[group].map(permission => { return { service: this.state.selectedService, permission: permission } })
+                                            console.log(permissions)
+                                            return permissions
+                                        })
                                     })
                                 }}
                             >
@@ -219,7 +226,7 @@ export class Groups extends React.Component {
                                                             valueState={null}
                                                             wrap={false}
                                                             onChange={() => {
-                                                                if (this.state.serviceGroupPermissions[this.state.selectedService][groupName].includes(permission)) {
+                                                                if (this.state.serviceGroupPermissions[this.state.selectedService][groupName] && this.state.serviceGroupPermissions[this.state.selectedService][groupName].includes(permission)) {
                                                                     var newPermissions = this.state.serviceGroupPermissions[this.state.selectedService][groupName].filter(function (value) {
                                                                         return value != permission;
                                                                     });
@@ -229,7 +236,7 @@ export class Groups extends React.Component {
                                                                     newPermissionsForGroup[groupName] = newPermissions;
                                                                     this.setState({ serviceGroupPermissions: newServiceGroupPermissions, permissionsForGroup: newPermissionsForGroup })
                                                                 } else {
-                                                                    var newPermissions = [...this.state.serviceGroupPermissions[this.state.selectedService][groupName]];
+                                                                    var newPermissions = this.state.serviceGroupPermissions[this.state.selectedService][groupName] ? [...this.state.serviceGroupPermissions[this.state.selectedService][groupName]] : [];
                                                                     newPermissions.push(permission)
                                                                     let newServiceGroupPermissions = { ...this.state.serviceGroupPermissions };
                                                                     newServiceGroupPermissions[this.state.selectedService][groupName] = newPermissions;

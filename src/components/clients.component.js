@@ -30,7 +30,43 @@ import { Token } from 'fundamental-react/Token';
 
 import { getServices, getGroupsForService, getPermissionsForGroup, getAllGroups } from '../httpService/service'
 
+import { getAllVersions, getTimestamp } from '../httpService/service'
+import { thisExpression } from '@babel/types';
+
 export class Clients extends React.Component {
+
+    componentDidMount() {
+        (async () => {
+            let sscVersions = await getAllVersions('SAP Service Cloud')
+            let timestamp = (await getTimestamp()).now
+            if ((timestamp - sscVersions[0].timestamp) < 1000 * 60) {
+                this.setState({ sscLoading: true })
+            } else {
+                this.setState({ sscFetchedLast: Math.floor((timestamp - sscVersions[0].timestamp) / 1000 / 60 )})
+            }
+            let ssmVersions = await getAllVersions('SAP Marketing Cloud')
+            if ((timestamp - ssmVersions[0].timestamp) < 1000 * 60) {
+                this.setState({ ssmLoading: true })
+            } else {
+                this.setState({ ssmFetchedLast: Math.floor((timestamp - ssmVersions[0].timestamp) / 1000 / 60 )})
+            }
+        })()
+        setInterval((async () => {
+            let sscVersions = await getAllVersions('SAP Service Cloud')
+            let timestamp = (await getTimestamp()).now
+            if ((timestamp - sscVersions[0].timestamp) < 1000 * 60) {
+                this.setState({ sscLoading: true })
+            } else {
+                this.setState({ sscFetchedLast: Math.floor((timestamp - sscVersions[0].timestamp) / 1000 / 60 )})
+            }
+            let ssmVersions = await getAllVersions('SAP Marketing Cloud')
+            if ((timestamp - ssmVersions[0].timestamp) < 1000 * 60) {
+                this.setState({ ssmLoading: true })
+            } else {
+                this.setState({ ssmFetchedLast: Math.floor((timestamp - ssmVersions[0].timestamp) / 1000 / 60 )})
+            }
+        }), 5000);
+    }
 
     render() {
         return (
@@ -57,7 +93,7 @@ export class Clients extends React.Component {
                             'Name',
                             'Bundle Server Url',
                             'Status',
-                            'Last Update',   
+                            'Last Update',
                             '',
                             'Logs'
                         ]}
@@ -68,9 +104,9 @@ export class Clients extends React.Component {
                                         'SAP Service Cloud',
                                         'https://bundle.faros.kyma.cx/servicecloud',
                                         <span style={{ color: "green" }}>Active</span>,
-                                        '1 min ago',
-                                        <Button glyph="edit" option="light"/>,
-                                        <Button glyph="attachment-text-file" option="light"/>,
+                                        <span>{this.state && (this.state.sscLoading ? "Updating now..." : (this.state.sscFetchedLast + ' minutes ago'))}</span>,
+                                        <Button glyph="edit" option="light" />,
+                                        <Button glyph="attachment-text-file" option="light" />,
                                     ]
                                 },
                                 {
@@ -78,9 +114,9 @@ export class Clients extends React.Component {
                                         'SAP Marketing Cloud',
                                         'https://bundle.faros.kyma.cx/marketingcloud',
                                         <span style={{ color: "green" }}>Active</span>,
-                                        '2 min ago',
-                                        <Button glyph="edit" option="light"/>,
-                                        <Button glyph="attachment-text-file" option="light"/>,
+                                        <span>{this.state && (this.state.ssmLoading ? "Updating now..." : (this.state.ssmFetchedLast + ' minutes ago'))}</span>,
+                                        <Button glyph="edit" option="light" />,
+                                        <Button glyph="attachment-text-file" option="light" />,
                                     ]
                                 },
                                 {
@@ -89,7 +125,7 @@ export class Clients extends React.Component {
                                         '',
                                         <span style={{ color: "red" }}>Not Active</span>,
                                         '',
-                                        <Button glyph="activate" option="light"/>,
+                                        <Button glyph="activate" option="light" />,
                                         //<Button glyph="attachment-text-file" option="light"/>,
                                     ]
                                 },

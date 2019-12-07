@@ -63,6 +63,9 @@ export const Entitlements = withRouter(({ history }) => <Panel style={{ width: "
                         compact
                         glyph="action"
                         style={{ marginLeft: "auto" }}
+                        onClick={() => {
+                            window.open("http://localhost:8080/", "_blank")
+                        }}
                     >
                     </Button>
                 </Panel.Footer>

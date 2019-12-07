@@ -44,7 +44,7 @@ export class Clients extends React.Component {
             } else {
                 this.setState({ sscFetchedLast: Math.floor((timestamp - sscVersions[0].timestamp) / 1000 / 60 )})
             }
-            let ssmVersions = await getAllVersions('SAP Customer Data Cloud')
+            let ssmVersions = await getAllVersions('SAP Customer Data Platform')
             if ((timestamp - ssmVersions[0].timestamp) < 1000 * 60) {
                 this.setState({ ssmLoading: true })
             } else {
@@ -59,7 +59,7 @@ export class Clients extends React.Component {
             } else {
                 this.setState({ sscFetchedLast: Math.floor((timestamp - sscVersions[0].timestamp) / 1000 / 60 )})
             }
-            let ssmVersions = await getAllVersions('SAP Customer Data Cloud')
+            let ssmVersions = await getAllVersions('SAP Customer Data Platform')
             if ((timestamp - ssmVersions[0].timestamp) < 1000 * 60) {
                 this.setState({ ssmLoading: true })
             } else {

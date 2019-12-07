@@ -52,7 +52,7 @@ export const Entitlements = withRouter(({ history }) => <Panel style={{ width: "
                     />
                     <Panel.Head
                         description="Products"
-                        title="SAP Customer Data Cloud"
+                        title="SAP Customer Data Platform"
                     />
                 </Panel.Header>
                 <Panel.Body>

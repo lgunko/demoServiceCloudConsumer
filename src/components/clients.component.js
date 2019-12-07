@@ -111,7 +111,7 @@ export class Clients extends React.Component {
                                 },
                                 {
                                     rowData: [
-                                        'SAP Marketing Cloud',
+                                        'SAP Customer Data Platform',
                                         'https://bundle.faros.kyma.cx/marketingcloud',
                                         <span style={{ color: "green" }}>Active</span>,
                                         <span>{this.state && (this.state.ssmLoading ? "Updating now..." : (this.state.ssmFetchedLast + ' minutes ago'))}</span>,

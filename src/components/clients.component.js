@@ -30,40 +30,53 @@ import { Token } from 'fundamental-react/Token';
 
 import { getServices, getGroupsForService, getPermissionsForGroup, getAllGroups } from '../httpService/service'
 
-import { getAllVersions, getTimestamp } from '../httpService/service'
-import { thisExpression } from '@babel/types';
+import { getAllVersions, getTimestamp, getActiveVersions } from '../httpService/service'
 
 export class Clients extends React.Component {
 
     componentDidMount() {
         (async () => {
+            let activeVersions = await getActiveVersions();
+            let activeVersion = activeVersions.find(version => version._id === 'SAP Service Cloud')
             let sscVersions = await getAllVersions('SAP Service Cloud')
+            let currentFullVersion = sscVersions.find(version => version._id === activeVersion.versionId && version.service === activeVersion._id)
             let timestamp = (await getTimestamp()).now
-            if ((timestamp - sscVersions[0].timestamp) < 1000 * 60) {
+            if ((timestamp - currentFullVersion.timestamp) < 1000 * 60) {
                 this.setState({ sscLoading: true })
             } else {
-                this.setState({ sscFetchedLast: Math.floor((timestamp - sscVersions[0].timestamp) / 1000 / 60 )})
+                this.setState({ sscFetchedLast: Math.floor((timestamp - currentFullVersion.timestamp) / 1000 / 60) })
             }
+
+            activeVersion = activeVersions.find(version => version._id === 'SAP Customer Data Platform')
             let ssmVersions = await getAllVersions('SAP Customer Data Platform')
-            if ((timestamp - ssmVersions[0].timestamp) < 1000 * 60) {
+            currentFullVersion = ssmVersions.find(version => version._id === activeVersion.versionId && version.service === activeVersion._id)
+
+            if ((timestamp - currentFullVersion.timestamp) < 1000 * 60) {
                 this.setState({ ssmLoading: true })
             } else {
-                this.setState({ ssmFetchedLast: Math.floor((timestamp - ssmVersions[0].timestamp) / 1000 / 60 )})
+                this.setState({ ssmFetchedLast: Math.floor((timestamp - currentFullVersion.timestamp) / 1000 / 60) })
             }
         })()
         setInterval((async () => {
+            let activeVersions = await getActiveVersions();
+            let activeVersion = activeVersions.find(version => version._id === 'SAP Service Cloud')
             let sscVersions = await getAllVersions('SAP Service Cloud')
+            let currentFullVersion = sscVersions.find(version => version._id === activeVersion.versionId && version.service === activeVersion._id)
             let timestamp = (await getTimestamp()).now
-            if ((timestamp - sscVersions[0].timestamp) < 1000 * 60) {
+            if ((timestamp - currentFullVersion.timestamp) < 1000 * 60) {
                 this.setState({ sscLoading: true })
             } else {
-                this.setState({ sscFetchedLast: Math.floor((timestamp - sscVersions[0].timestamp) / 1000 / 60 )})
+                this.setState({ sscFetchedLast: Math.floor((timestamp - currentFullVersion.timestamp) / 1000 / 60) })
             }
+
+            activeVersion = activeVersions.find(version => version._id === 'SAP Customer Data Platform')
             let ssmVersions = await getAllVersions('SAP Customer Data Platform')
-            if ((timestamp - ssmVersions[0].timestamp) < 1000 * 60) {
+            currentFullVersion = ssmVersions.find(version => version._id === activeVersion.versionId && version.service === activeVersion._id)
+
+            if ((timestamp - currentFullVersion.timestamp) < 1000 * 60) {
                 this.setState({ ssmLoading: true })
             } else {
-                this.setState({ ssmFetchedLast: Math.floor((timestamp - ssmVersions[0].timestamp) / 1000 / 60 )})
+                this.setState({ ssmFetchedLast: Math.floor((timestamp - currentFullVersion.timestamp) / 1000 / 60) })
             }
         }), 5000);
     }

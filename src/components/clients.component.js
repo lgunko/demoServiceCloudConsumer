@@ -115,7 +115,7 @@ export class Clients extends React.Component {
                                 {
                                     rowData: [
                                         'SAP Service Cloud',
-                                        'https://bundle.faros.kyma.cx/servicecloud',
+                                        'http://bundle-701714770.eu-central-1.elb.amazonaws.com/bundle/federator/v1/location/bundle.tar.gz',
                                         <span style={{ color: "green" }}>Active</span>,
                                         <span>{this.state && (this.state.sscLoading ? "Updating now..." : (this.state.sscFetchedLast + ' minutes ago'))}</span>,
                                         <Button glyph="edit" option="light" />,
@@ -125,7 +125,7 @@ export class Clients extends React.Component {
                                 {
                                     rowData: [
                                         'SAP Customer Data Platform',
-                                        'https://bundle.faros.kyma.cx/customerdatacloud',
+                                        'http://bundle-701714770.eu-central-1.elb.amazonaws.com/bundle/federator/v1/location/bundle.tar.gz',
                                         <span style={{ color: "green" }}>Active</span>,
                                         <span>{this.state && (this.state.ssmLoading ? "Updating now..." : (this.state.ssmFetchedLast + ' minutes ago'))}</span>,
                                         <Button glyph="edit" option="light" />,

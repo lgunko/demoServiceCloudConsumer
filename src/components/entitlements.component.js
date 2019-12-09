@@ -64,7 +64,7 @@ export const Entitlements = withRouter(({ history }) => <Panel style={{ width: "
                         glyph="action"
                         style={{ marginLeft: "auto" }}
                         onClick={() => {
-                            window.open("http://localhost:8080/", "_blank")
+                            window.open("http://opaagent-1033655436.eu-central-1.elb.amazonaws.com/", "_blank")
                         }}
                     >
                     </Button>

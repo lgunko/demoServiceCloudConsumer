@@ -14,7 +14,7 @@ import { Panel } from 'fundamental-react/Panel';
 import { Toggle } from 'fundamental-react/Toggle';
 
 
-import { getServices, getGroupsForService, getPermissionsForGroup, getAllGroups, getActiveVersions, getAllVersions, postNewVersion, activateOldVersion } from '../httpService/service'
+import { getServices, getGroupsForService, getPermissionsForService, getPermissionsForGroup, getAllGroups, getActiveVersions, getAllVersions, postNewVersion, activateOldVersion } from '../httpService/service'
 
 export class Groups extends React.Component {
     state = {
@@ -25,6 +25,7 @@ export class Groups extends React.Component {
         groupsForService: {},
         serviceGroupPermissions: {},
         permissionsForService: {},
+        allPermissionsForService: {},
         permissionsForGroup: {},
         allVersions: [],  //back
         allFullVersions: [],
@@ -99,9 +100,10 @@ export class Groups extends React.Component {
         this.setState({ services: services, selectedService: services[0] })
 
         services.map(async service => {
-            let groupsForService = await getGroupsForService(service);
+            let [groupsForService, allPermissionsForService] = await Promise.all([getGroupsForService(service), getPermissionsForService(service)])
             this.setState(state => {
                 state.groupsForService[service] = groupsForService
+                state.allPermissionsForService[service] = allPermissionsForService
                 return state
             })
         })
@@ -217,11 +219,11 @@ export class Groups extends React.Component {
                                             groupName,
                                             <div>
                                                 {
-                                                    this.state.permissionsForService[this.state.selectedService] && this.state.permissionsForService[this.state.selectedService].map(permission =>
+                                                    this.state.allPermissionsForService[this.state.selectedService] && this.state.allPermissionsForService[this.state.selectedService].map(permission =>
                                                         <CheckBox
                                                             disabled={false}
                                                             readonly={!this.state.edited[groupName]}
-                                                            checked={this.state.serviceGroupPermissions[this.state.selectedService][groupName] && this.state.serviceGroupPermissions[this.state.selectedService][groupName].includes(permission)}
+                                                            checked={this.state.serviceGroupPermissions[this.state.selectedService] && this.state.serviceGroupPermissions[this.state.selectedService][groupName] && this.state.serviceGroupPermissions[this.state.selectedService][groupName].includes(permission)}
                                                             text={permission}
                                                             valueState={null}
                                                             wrap={false}

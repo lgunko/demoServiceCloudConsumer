@@ -207,8 +207,8 @@ export class Groups extends React.Component {
                 <Panel.Body style={{ background: "#edeff0" }}>
                     <Table
                         headers={[
-                            'Name',
-                            'Permissions',
+                            'Group Name',
+                            'Group Permissions',
                             ''
                         ]}
                         tableData={

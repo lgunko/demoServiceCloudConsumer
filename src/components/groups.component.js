@@ -9,7 +9,6 @@ import { Select } from '@ui5/webcomponents-react/lib/Select';
 import { Option } from '@ui5/webcomponents-react/lib/Option';
 
 import { Switch } from '@ui5/webcomponents-react/lib/Switch';
-
 import { Panel } from 'fundamental-react/Panel';
 import { Toggle } from 'fundamental-react/Toggle';
 
@@ -159,6 +158,8 @@ export class Groups extends React.Component {
                             >
                                 {this.state.services.map(service => <Option selected={this.state.selectedService === service} value={service}>{service}</Option>)}
                             </Select>
+
+                            <Button style={{ marginRight: "1rem" }}>Add Group</Button>
 
                             <Select style={{ width: "5rem", marginRight: "1rem" }}
                                 onChange={(event) => {

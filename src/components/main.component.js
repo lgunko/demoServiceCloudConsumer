@@ -21,7 +21,7 @@ const queryString = require('query-string');
 const LoginURL = "https://c4id-iam-test-one.accounts400.ondemand.com/oauth2/authorize";
 
 
-const RedirectUrl = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/callbackGetTokenByCode";
+const RedirectUrl = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/callbackGetTokenByCode";
 const IasClientId = "T000003";
 const OIDCScope = "openid";
 const CodeResponseType = "code";

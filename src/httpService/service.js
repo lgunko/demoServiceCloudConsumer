@@ -1,32 +1,32 @@
 
 export const getServices = async () => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/allServices"
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/allServices"
     return await (await fetch(url)).json()
 }
 
 export const getAllGroups = async () => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/allGroups"
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/allGroups"
     return await (await fetch(url)).json()
 }
 
 export const getGroupsForService = async (service) => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/groupsForService?service=" + encodeURIComponent(service)
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/groupsForService?service=" + encodeURIComponent(service)
     return await (await fetch(url)).json()
 }
 
 export const getPermissionsForService = async (service) => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/permissionsForService?service=" + encodeURIComponent(service)
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/permissionsForService?service=" + encodeURIComponent(service)
     return await (await fetch(url)).json()
 }
 
 export const getPermissionsForGroup = async (group) => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/servicePermissionsForGroup?group=" + encodeURIComponent(group)
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/servicePermissionsForGroup?group=" + encodeURIComponent(group)
     return await (await fetch(url)).json()
 }
 
 
 export const activateOldVersion = async (service, versionId) => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/activateOldVersion"
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/activateOldVersion"
     let result = await (await fetch(url, {
         method: 'POST',
         headers: {
@@ -42,7 +42,7 @@ export const activateOldVersion = async (service, versionId) => {
 }
 
 export const postNewVersion = async (serviceGroupPermissions, service) => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/newVersion"
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/newVersion"
     let result = await (await fetch(url, {
         method: 'POST',
         headers: {
@@ -59,17 +59,17 @@ export const postNewVersion = async (serviceGroupPermissions, service) => {
 }
 
 export const getActiveVersions = async () => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/activeVersions"
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/activeVersions"
     return await (await fetch(url)).json()
 }
 
 export const getAllVersions = async (service) => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/allVersions?service=" + encodeURIComponent(service)
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/allVersions?service=" + encodeURIComponent(service)
     return await (await fetch(url)).json()
 }
 
 export const getTimestamp = async () => {
-    let url = "https://aa4tm323i6.execute-api.eu-central-1.amazonaws.com/Prod/timestamp"
+    let url = "https://je9b04hf24.execute-api.eu-central-1.amazonaws.com/stage/timestamp"
     return await (await fetch(url)).json()
 }
 

@@ -115,7 +115,7 @@ export class Clients extends React.Component {
                                 {
                                     rowData: [
                                         'SAP Service Cloud',
-                                        <a href='http://bundle-1168353036.eu-central-1.elb.amazonaws.com/bundle/federator/v1/location/bundle.tar.gz'>http://bundle-1168353036.eu-central-1.elb.amazonaws.com/bundle/federator/v1/location/bundle.tar.gz</a>,
+                                        'http://bundle-1168353036.eu-central-1.elb.amazonaws.com/bundle/federator/v1/location/bundle.tar.gz',
                                         <span style={{ color: "green" }}>Active</span>,
                                         <span>{this.state && (this.state.sscLoading ? "Updating now..." : (this.state.sscFetchedLast + ' minutes ago'))}</span>,
                                         <Button glyph="edit" option="light" />,
@@ -125,7 +125,7 @@ export class Clients extends React.Component {
                                 {
                                     rowData: [
                                         'SAP Customer Data Platform',
-                                        <a href='http://bundle-1168353036.eu-central-1.elb.amazonaws.com/bundle/federator/v1/location/bundle.tar.gz'>http://bundle-1168353036.eu-central-1.elb.amazonaws.com/bundle/federator/v1/location/bundle.tar.gz</a>,
+                                        'http://bundle-1168353036.eu-central-1.elb.amazonaws.com/bundle/federator/v1/location/bundle.tar.gz',
                                         <span style={{ color: "green" }}>Active</span>,
                                         <span>{this.state && (this.state.ssmLoading ? "Updating now..." : (this.state.ssmFetchedLast + ' minutes ago'))}</span>,
                                         <Button glyph="edit" option="light" />,
